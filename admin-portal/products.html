@@ -9,28 +9,31 @@
 
   </head>
   <body>
+    <a id = "products_button">Link to Products</a>
+    <a id = "orders_button">Link to Orders</a>
 
+
+    <h1 class = "header"></h1>
     <script id="products-template" type="text/x-handlebars-template">
       <div class="products">
-        <h1>Products</h1>
         <div class="body">
         {{#each this}}
-        <div class="each-product">
-        <p class="product">
+        <div id="each-product-{{this.id}}" class="each-product">
+        <!-- <p class="product">
         <em>Product: </em> <a href="product.html?id={{this.id}}">{{this.name}}</a>
-        </p>
-        <p>
-        <em>  Description: </em>{{this.description}}
-        </p>
-        <p>
-        <em>  Price: </em>{{this.price}}
-        </p>
+        </p> -->
+        {{#each this}}
+          <p>
+            <em>{{titleize @key}}: </em>{{this}}
+          </p>
+        {{/each}}
+
         </div>
         {{/each}}
         </div>
       </div>
     </script>
-    <script>productsRequest();
+    <script>
     </script>
   </body>
 </html>
