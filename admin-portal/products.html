@@ -33,7 +33,24 @@
         </div>
       </div>
     </script>
-    <script>
-    </script>
+    <script id="orders-template" type="text/x-handlebars-template">
+      <div class="products">
+        <div class="body">
+          {{#each this}}
+          <div id="each-product-{{this.id}}" class="each-order">
+            <!-- <p class="product">
+            <em>Product: </em> <a href="product.html?id={{this.id}}">{{this.name}}</a>
+          </p> -->
+          {{#each this}}
+          <p>
+            <em>{{titleize @key}}: </em>{{this}}
+          </p>
+          {{/each}}
+
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </script>
   </body>
 </html>

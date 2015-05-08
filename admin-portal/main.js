@@ -11,29 +11,31 @@
     return str.titleize();
   });
 
-
+  productsLoaded = false;
+  ordersLoaded = false;
 
   var products = {
-    template: function(){
-      return $("#products-template").html();
+    template: function(title){
+      return $("#" + title + "-template").html();
     },
-    compile: function(){
-        return Handlebars.compile(this.template());
+    compile: function(title){
+        return Handlebars.compile(this.template(title));
     },
     request: function(subject){
       var getProducts = $.ajax({ url: "http://localhost:3000/api/" + subject +".json"});
+      if (subject === "products")
+        {productsLoaded = true;}
 
+      if(subject === "orders")
+        {ordersLoaded = true;}
       // var title = (function(subject){return subject;});
-
       getProducts.done(this.buildTemplate.bind(null, subject));
-
     },
     buildTemplate: function(title, products_data){
       // console.log(arguments);
-      var html = products.compile()(products_data);
+      var html = products.compile(title)(products_data);
       $('body').append(html);
       if (title === 'orders') {
-      $('.each-product').toggleClass('each-product').toggleClass('each-order');
       }
       $(".header").text(title.titleize());
 
@@ -51,25 +53,21 @@
     });
 
     $("#products_button").click(function(){
-      // $(".products").hide()
-      // debugger
-      if ($(".header").text() != "Products"){
+      $(".each-order").hide();
+      if (productsLoaded === false)
         products.init("products");
-        }
       else {
-        $("div[id*='each-oder']").hide();
-        $("div[id*='each-product']").show();
+        $(".each-product").show();
+        $(".header").text("Products");
       }
     });
       $("#orders_button").click(function(){
         $(".each-product").hide();
-        // debugger
-        if ($("div[id*='each-order]")) {
-          $("div[id*='each-product]").hide();
-          $("div[id*='each-order]").show();
+        if (ordersLoaded === true) {
+          $(".each-order").show();
+          $(".header").text("Orders");
         }
         else {
-          // $("div[id*='each-product']").hide()
           products.init("orders");
         }
 
